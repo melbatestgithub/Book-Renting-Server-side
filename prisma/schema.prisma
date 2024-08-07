@@ -21,3 +21,21 @@ model User {
   updatedAt       DateTime @updatedAt
 }
 
+model Book {
+  id           Int    @id @default(autoincrement())
+  book_title    String
+  author        String
+  book_owner    String
+  category      String
+  status        String
+  
+}
+
+model Book_Owner {
+    id           Int    @id @default(autoincrement())
+    owner_name   String
+    total_upload String
+    location     String
+    status       String
+}
+
