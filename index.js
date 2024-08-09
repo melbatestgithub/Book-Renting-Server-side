@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const express = require('express');
 const userRouter=require("./routers/User")
+const OwnerRouter=require("./routers/BookOwner")
 const app = express();
 const port = 8000;
 const cors=require('cors')
@@ -10,6 +11,7 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors())
 app.use("/auth",userRouter)
+app.use("/book-owner",OwnerRouter)
 // Function to check database connection
 const checkDatabaseConnection = async () => {
   try {

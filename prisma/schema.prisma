@@ -8,34 +8,41 @@ datasource db {
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  email           String   @unique
-  firstName       String?
-  lastName        String?
-  password        String
-  address         String
-  confirmPassword String
-  phoneNumber     String? 
-  role            String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                Int      @id @default(autoincrement())
+  email             String   @unique
+  firstName         String?
+  lastName          String?
+  password          String
+  address           String
+  confirmPassword   String
+  status            Boolean  @default(false)
+  phoneNumber       String? 
+  total_upload      Int      @default(0)
+  role              Role     @default(Owner)
+  approved          Boolean  @default(false) // Add the approved field
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
+
+enum Role {
+  Owner
+  ADMIN
+  SUPERADMIN
+}
+
+
 model Book {
-  id           Int    @id @default(autoincrement())
-  book_title    String
+  id            Int    @id @default(autoincrement())
+  book_name     String
   author        String
+  book_number   Int
+  book_cover    String
   book_owner    String
   category      String
   status        String
   
 }
 
-model Book_Owner {
-    id           Int    @id @default(autoincrement())
-    owner_name   String
-    total_upload String
-    location     String
-    status       String
-}
+
 
