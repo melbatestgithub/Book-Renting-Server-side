@@ -1,16 +1,17 @@
-const { AbilityBuilder, Ability } = require('@casl/ability');
+const { Ability, AbilityBuilder } = require('@casl/ability');
 
-function defineRulesFor(role) {
+const defineAbilitiesFor = (user) => {
     const { can, rules } = new AbilityBuilder(Ability);
 
-    if (role === 'Admin') {
-        can('manage', 'all'); // Admin can manage everything
-    } else if (role === 'BookOwner') {
-        can('read', 'Book'); // BookOwner can read books
-        can('create', 'Book'); // BookOwner can create books
+    if (user && user.id) {
+        can('update', 'UploadedBook', { book_owner: user.id });
+        can('delete', 'UploadedBook', { book_owner: user.id });
+    } else {
+        // Handle the case where the user object is not valid
+        // You can adjust this based on your requirements
     }
 
-    return rules;
-}
+    return new Ability(rules);
+};
 
-module.exports = defineRulesFor;
+module.exports = defineAbilitiesFor;

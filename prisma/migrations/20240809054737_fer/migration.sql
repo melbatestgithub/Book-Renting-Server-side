@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Book" ALTER COLUMN "book_owner" DROP NOT NULL,
+ALTER COLUMN "status" DROP NOT NULL,
+ALTER COLUMN "book_cover" DROP NOT NULL,
+ALTER COLUMN "book_number" DROP NOT NULL;

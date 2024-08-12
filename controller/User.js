@@ -75,6 +75,8 @@ exports.loginUser = async (req, res) => {
             id: user.id,
             email: user.email,
             role: user.role,
+            firstName:user.firstName,
+            lastName:user.lastName,
             token,
             abilities: ability.rules
         });
@@ -83,3 +85,60 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+exports.updateUser = async (req, res) => {
+    const userId = parseInt(req.params.id); // Assuming you're passing the user ID as a parameter
+    const {
+      email,
+      firstName,
+      lastName,
+      password,
+      address,
+      confirmPassword,
+      status,
+      phoneNumber,
+      total_upload,
+      role,
+      approved,
+    } = req.body;
+  
+    try {
+      // Validate input if necessary (e.g., password matching, email format, etc.)
+      if (password !== confirmPassword) {
+        return res.status(400).json({ message: "Passwords do not match" });
+      }
+  
+      // Update the user in the database
+      const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: {
+          email,
+          firstName,
+          lastName,
+          password,
+          address,
+          confirmPassword,
+          status,
+          phoneNumber,
+          total_upload,
+          role,
+          approved,
+        },
+      });
+  
+      // Respond with the updated user data
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ message: "Failed to update user", error });
+    }
+  };
+
+  exports.getAllUser=async(req,res)=>{
+    try {
+        const users=await prisma.user.findMany()
+        res.status(200).send(users)
+    } catch (error) {
+       res.status(500).send("Error is occured",error) 
+    }
+  }

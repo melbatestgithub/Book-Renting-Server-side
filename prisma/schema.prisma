@@ -36,12 +36,30 @@ model Book {
   id            Int    @id @default(autoincrement())
   book_name     String
   author        String
-  book_number   Int
-  book_cover    String
-  book_owner    String
+  book_number   Int?
+  book_owner    String?
   category      String
-  status        String
+  status        String?
+ 
   
+}
+model UploadedBook {
+  id            Int    @id @default(autoincrement())
+  book_name     String
+  author        String
+  book_cover    Bytes?
+  book_owner    String?
+  category      String
+  book_number   Int?
+  status        String  @default("Free")
+  book_price    String?
+  quantity      Int?
+
+}
+model BookCategory {
+  id            Int    @id @default(autoincrement())
+  name         String
+  total        Int
 }
 
 
