@@ -49,6 +49,23 @@ exports.addBook= async (req, res) => {
     }
   }
 
+  exports.deleteBooks=async(req,res)=>{
+    const { id } = req.params;
+
+    try {
+      const book = await prisma.book.findUnique({ where: { id: Number(id) } }); 
+      if (!book) {
+        return res.status(404).json({ message: 'Book not found' });
+      }
+  
+      await prisma.book.delete({ where: { id: Number(id) } }); 
+  
+      res.status(200).json({ message: 'Book successfully deleted' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while deleting the book' });
+    }
+  }
   
 
  

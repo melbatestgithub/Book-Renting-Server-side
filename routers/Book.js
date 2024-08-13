@@ -25,6 +25,7 @@ const upload = multer({ storage: storage });
 router.post("/addBook", bookController.addBook);
 router.get("/search", bookController.searchBooks);
 router.get("/getAllBook", bookController.getAllBooks);
+router.delete("/delete/:id", bookController.deleteBooks);
 
 
 
