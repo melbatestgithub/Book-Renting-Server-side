@@ -51,4 +51,15 @@ exports.approveUser = async (req, res) => {
   }
 };
 
+exports.deleteUser= async (req, res) => {
+  const { id } = req.params;
+  try {
+    await prisma.user.delete({
+      where: { id: parseInt(id) },
+    });
+    res.status(200).json({ message: 'Book owner deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete book owner' });
+  }
+}
 
