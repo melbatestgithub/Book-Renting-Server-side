@@ -11,7 +11,7 @@ exports.addBook= async (req, res) => {
           book_name,
           author,
           category,
-          status: 'Pending', // Default status
+          status: 'Pending', 
         },
       });
       res.status(201).json(newBook);
@@ -21,10 +21,9 @@ exports.addBook= async (req, res) => {
   }
 
   exports.searchBooks = async (req, res) => {
-    const { query } = req.query; // Get search query from request
+    const { query } = req.query; 
   
     try {
-      // Find books matching the query in either book name or author
       const books = await prisma.book.findMany({
         where: {
           OR: [
@@ -39,16 +38,28 @@ exports.addBook= async (req, res) => {
     }
   };
 
-  exports.getAllBooks=async(req,res)=>{
+  exports.getAllBooks = async (req, res) => {
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 10;
     try {
-      const books=await prisma.book.findMany()
-      res.status(200).send(books)
-      
+      const totalBooks = await prisma.book.count();
+  
+      const books = await prisma.book.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+      });
+  
+      res.json({
+        totalBooks,
+        books,
+        currentPage: page,
+        totalPages: Math.ceil(totalBooks / limit),
+      });
     } catch (error) {
-      res.status(500).send("This Error is Occured",error)
+      console.error(error);
+      res.status(500).send({ message: "Error fetching books", error });
     }
-  }
-
+  };
 
 
  
