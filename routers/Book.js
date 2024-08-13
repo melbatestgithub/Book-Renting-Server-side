@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const bookController = require("../controller/Book");
 const multer = require('multer');
-const authorization=require("../middleware/authorization")
 const { PrismaClient } = require('@prisma/client'); // Import PrismaClient
 const prisma = new PrismaClient(); 
 const path = require('path');
@@ -29,7 +28,7 @@ router.delete("/delete/:id", bookController.deleteBooks);
 
 
 
-router.post('/uploadBook',authorization, upload.single('bookCover'), async (req, res) => {
+router.post('/uploadBook', upload.single('bookCover'), async (req, res) => {
   const { book_name, author, category, book_number, quantity, book_price,book_owner, } = req.body;
 
   const bookCover = req.file ? req.file.path : null;
@@ -51,11 +50,6 @@ router.post('/uploadBook',authorization, upload.single('bookCover'), async (req,
         book_price,
         book_cover: bookCover ? Buffer.from(bookCover) : null, // Adjust according to your needs
       },
-    });
-
-    await prisma.user.update({
-      where: { id: book_owner },
-      data: { total_upload: { increment: 1 } },
     });
 
     res.status(201).json(newBook);
