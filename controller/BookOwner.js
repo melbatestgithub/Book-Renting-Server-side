@@ -62,4 +62,22 @@ exports.deleteUser= async (req, res) => {
     res.status(500).json({ error: 'Failed to delete book owner' });
   }
 }
+exports.filterBookOwner=async(req,res)=>{
+  const { email, approved, status,address } = req.query;
+
+  try {
+    const users = await prisma.user.findMany({
+      where: {
+        ...(email && { email: { contains: email, mode: 'insensitive' } }),
+        ...(address && { address: { contains: address, mode: 'insensitive' } }),
+        ...(approved && { approved: approved === 'true' }),
+        ...(status && { status: status === 'true' }),
+        
+      },
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching users' });
+  }
+}
 
