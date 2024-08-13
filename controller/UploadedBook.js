@@ -42,7 +42,7 @@ exports.UpdateUploadedBook = async (req, res) => {
 
 
 exports.DeleteUploadedBook = async (req, res) => {
-   
+   const {id}=req.body
 };
 
 exports.getAllUploadedBook=async(req,res)=>{

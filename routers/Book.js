@@ -30,13 +30,12 @@ router.get("/getAllBook", bookController.getAllBooks);
 router.post('/uploadBook', upload.single('bookCover'), async (req, res) => {
   const { book_name, author, category, book_number, quantity, book_price,book_owner, } = req.body;
 
-  // Handle file upload
   const bookCover = req.file ? req.file.path : null;
 
   try {
     // Ensure required fields are provided
     if (!book_name || !author || !category || !book_number || !quantity || !book_price) {
-      return res.status(400).json({ error: 'All fields are required' });
+      return res.status(400).json({ error: 'All field are required' });
     }
 
     // Create new book entry
