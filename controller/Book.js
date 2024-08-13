@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 exports.addBook= async (req, res) => {
-    const { book_name, author, category } = req.body;
+    const { book_name, author, category ,book_owner} = req.body;
   
     try {
       const newBook = await prisma.book.create({
