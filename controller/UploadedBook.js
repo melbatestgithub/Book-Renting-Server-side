@@ -18,36 +18,25 @@ exports.getOwnerUploadedBook = async (req, res) => {
 
 // Update an uploaded book
 exports.UpdateUploadedBook = async (req, res) => {
-    const user = req.user; // Retrieve user from localStorage
-    const bookId = parseInt(req.params.bookId);
+  const { id } = req.params; // Extract the id from the route parameters
+  const { book_name, status, book_price, book_number } = req.body;
 
-    // const ability = defineAbilitiesFor(user);
+  try {
+    const updatedBook = await prisma.book.update({
+      where: { id: parseInt(id) }, // Ensure the id is correctly passed and parsed as an integer
+      data: {
+        book_name,
+        status,
+        book_price,
+        book_number
+      },
+    });
 
- 
-        const updatedBookData = {
-            book_name: req.body.book_name,
-            author: req.body.author,    
-            book_price: req.body.book_price,
-            book_number: req.body.book_number
-        };
-
-        try {
-            const updatedBook = await prisma.uploadedBook.update({
-                where: { id: bookId },
-                data: updatedBookData
-            });
-
-            if (updatedBook) {
-                res.status(200).send('Book updated successfully');
-            } else {
-                res.status(404).send('Book not found');
-            }
-        }
-        
-        catch (error) {
-            res.status(500).send('Error updating the book');
-        }
-
+    res.status(200).send(updatedBook);
+  } catch (error) {
+    console.error("Error updating book:", error);
+    res.status(500).send({ message: "Internal Server Error", error: error.message });
+  }
     
 };
 
