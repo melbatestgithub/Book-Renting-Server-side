@@ -22,7 +22,7 @@ exports.UpdateUploadedBook = async (req, res) => {
   const { book_name, status, book_price, book_number } = req.body;
 
   try {
-    const updatedBook = await prisma.book.update({
+    const updatedBook = await prisma.uploadedBook.update({
       where: { id: parseInt(id) }, // Ensure the id is correctly passed and parsed as an integer
       data: {
         book_name,
