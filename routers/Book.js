@@ -35,7 +35,6 @@ router.post('/uploadBook', upload.single('bookCover'), async (req, res) => {
   const bookCover = req.file ? req.file.path : null;
 
   try {
-    // Ensure required fields are provided
     if (!book_name || !author || !category || !book_number || !quantity || !book_price) {
       return res.status(400).json({ error: 'All field are required' });
     }
