@@ -5,5 +5,5 @@ router.get("/",UploadController.getOwnerUploadedBook)
 router.get("/getAll",UploadController.getAllUploadedBook)
 router.put('/update/:id',UploadController.UpdateUploadedBook); 
 
-router.delete('/delete/:book_number', authorize,UploadController.DeleteUploadedBook); 
+router.delete('/delete/:id',UploadController.DeleteUploadedBook); 
 module.exports=router

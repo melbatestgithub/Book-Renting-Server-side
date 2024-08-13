@@ -42,9 +42,25 @@ exports.UpdateUploadedBook = async (req, res) => {
 
 
 exports.DeleteUploadedBook = async (req, res) => {
-   const {id}=req.body
-};
+  const { id } = req.params; // Extract the ID from URL parameters
 
+  try {
+    // Check if the book exists
+    const book = await prisma.uploadedBook.findUnique({ where: { id: Number(id) } }); // Prisma query to find the book
+    if (!book) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+
+    // Delete the book
+    await prisma.book.delete({ where: { id: Number(id) } }); // Prisma query to delete the book
+
+    // Respond with success
+    res.status(200).json({ message: 'Book successfully deleted' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred while deleting the book' });
+  }
+};
 exports.getAllUploadedBook=async(req,res)=>{
     try {
         const uploadedBook=await prisma.uploadedBook.findMany()
