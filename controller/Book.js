@@ -12,6 +12,7 @@ exports.addBook= async (req, res) => {
           author,
           category,
           status: 'Pending', 
+          book_owner
         },
       });
       res.status(201).json(newBook);
