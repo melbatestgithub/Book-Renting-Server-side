@@ -38,29 +38,17 @@ exports.addBook= async (req, res) => {
     }
   };
 
-  exports.getAllBooks = async (req, res) => {
-    const page = parseInt(req.query.page) || 1; 
-    const limit = parseInt(req.query.limit) || 10;
+  exports.getAllBooks=async(req,res)=>{
     try {
-      const totalBooks = await prisma.book.count();
-  
-      const books = await prisma.book.findMany({
-        skip: (page - 1) * limit,
-        take: limit,
-      });
-  
-      res.json({
-        totalBooks,
-        books,
-        currentPage: page,
-        totalPages: Math.ceil(totalBooks / limit),
-      });
+      const books=await prisma.book.findMany()
+      res.status(200).send(books)
+      
     } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: "Error fetching books", error });
+      res.status(500).send("This Error is Occured",error)
     }
-  };
+  }
 
+  
 
  
 
